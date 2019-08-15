@@ -26,7 +26,7 @@ echo "# Author: www.banwagongzw.com && www.vultrcn.com          #"
 echo "#=========================================================#"
 
 #Check system
-check_system(){
+function check_release(){
     local value=$1
 
     local release=''
@@ -47,7 +47,7 @@ check_system(){
 }
 
 #Get centos main version
-get_centos_main_version(){
+function get_centos_main_version(){
     if [[ -s /etc/redhat-release ]]; then
         grep -oE  "[0-9.]+" /etc/redhat-release
     else
@@ -56,7 +56,7 @@ get_centos_main_version(){
 }
 
 #Check centos main version
-check_centos_main_version(){
+function check_centos_main_version(){
     local num=$1
 
     local version="$(get_centos_main_version)"
@@ -70,7 +70,7 @@ check_centos_main_version(){
 }
 
 #Main
-if check_system centos; then
+if check_release centos; then
     if check_centos_main_version 6; then
         echo -e "[${green}INFO${plain}] System OS is CentOS6. Processing..."
         echo -e "-------------------------------------------"
@@ -81,7 +81,12 @@ if check_system centos; then
             sed -i "s/^default=.*/default=$number/g" /boot/grub/grub.conf
             echo -e "-------------------------------------------"
             echo -e "[${green}INFO${plain}] Success! Your server will reboot in 3s..."
-            sleep 3
+            sleep 1
+            echo -e "[${green}INFO${plain}] Success! Your server will reboot in 2s..."
+            sleep 1
+            echo -e "[${green}INFO${plain}] Success! Your server will reboot in 1s..."
+            sleep 1
+            echo -e "[${green}INFO${plain}] Reboot..."
             reboot
         else
             echo -e "[${red}ERROR${plain}] Change kernel failed!"
@@ -94,7 +99,12 @@ if check_system centos; then
             grub2-set-default `awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg | grep '(3.10.0-229.1.2.el7.x86_64) 7 (Core)' | awk '{print $1}'`
             echo -e "-------------------------------------------"
             echo -e "[${green}INFO${plain}] Success! Your server will reboot in 3s..."
-            sleep 3
+            sleep 1
+            echo -e "[${green}INFO${plain}] Success! Your server will reboot in 2s..."
+            sleep 1
+            echo -e "[${green}INFO${plain}] Success! Your server will reboot in 1s..."
+            sleep 1
+            echo -e "[${green}INFO${plain}] Reboot..."
             reboot
         else
             echo -e "[${red}ERROR${plain}] Change kernel failed!"
